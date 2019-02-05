@@ -1,0 +1,2 @@
+# Product-Labels
+Labels speak a lot more and improve the attraction quotient of a product. It's helps ecommerce store administrators in adding attractive labels to their products for displaying lucrative discounts in an appealing way at the frontend. This extension offers convenience in adding labels by providing an array of backend options. These labels come handy in grabbing the attention of shoppers and in improving conversion rates significantly.
