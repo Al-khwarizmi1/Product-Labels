@@ -1,0 +1,113 @@
+ <?php
+ /**
+  * Apptha
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the EULA
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://www.apptha.com/LICENSE.txt
+  *
+  * ==============================================================
+  *                 MAGENTO EDITION USAGE NOTICE
+  * ==============================================================
+  * This package designed for Magento COMMUNITY edition
+  * Apptha does not guarantee correct work of this extension
+  * on any other Magento edition except Magento COMMUNITY edition.
+  * Apptha does not provide extension support in case of
+  * incorrect edition usage.
+  * ==============================================================
+  *
+  * @category    Apptha
+  * @package     Apptha_ProductLabels
+  * @version     1.0.0
+  * @author      Apptha Team <developers@contus.in>
+  * @copyright   Copyright (c) 2014 Apptha. (http://www.apptha.com)
+  * @license     http://www.apptha.com/LICENSE.txt
+  *
+  */
+ $_htmlId      = $this->getElement()->getHtmlId();
+ $_htmlClass   = $this->getElement()->getClass();
+ $_htmlName    = $this->getElement()->getName();
+ $_readonly    = $this->getElement()->getReadonly();
+ $_value 	   = $this->getElement()->getValue();
+
+ ?>
+ <table>
+ <tr>
+<td><label name="<?php echo $_htmlName?>" for="label_id" id="hello" >Label Position <span class="required">*</span></label><td>
+<input id='positionValue' readonly="readonly" name="<?php  echo $_htmlName; ?>" value="<?php echo $_value; ?>"  value="" class="required-entry input-text required-entry" type="text">
+</tr>
+<tr>
+	<td></td>
+	<td>
+		<div id="group">
+			<div id="box1" class="addPosition" data-attr="Top-Left"></div>
+			<div id="box2" class="addPosition" data-attr="Top-Middle"></div>
+			<div id="box3" class="addPosition" data-attr="Top-Right"></div>
+			<div id="box4" class="addPosition" data-attr="Middle-Left"></div>
+			<div id="box5" class="addPosition" data-attr="Middle-Middle"></div>
+			<div id="box6" class="addPosition" data-attr="Middle-Right"></div>
+			<div id="box7" class="addPosition" data-attr="Bottom-Left"></div>
+			<div id="box8" class="addPosition" data-attr="Bottom-Middle"></div>
+			<div id="box9" class="addPosition" data-attr="Bottom-Right"></div>
+			
+	</div>
+	</td>
+	</tr>
+</table>
+<script type="text/javascript">//<![CDATA[
+$$('div.addPosition').each(function(element) {
+	element.observe('click', function(e){
+		$('positionValue').writeAttribute('value', $(this).readAttribute('data-attr'));	
+	});
+});
+$('positionValue').observe('click',function() {
+ 		$('group').setStyle({display: 'block'});
+		
+});
+ //]]></script>
+ 
+<style>
+#hello {
+	margin-right: 123px;
+}
+
+#label_id {
+	margin-bottom: 5px;
+}
+
+.addPosition {
+	background-color: #fff;
+	border: 1px solid #ccc;
+	float: left;
+	height: 21px;
+	margin-left: 1px;
+	margin-top: 1px;
+	width: 23px;
+}
+
+#group {
+	display: none;
+	width: 79px;
+	margin-bottom: 5px ;
+	margin-left: 28px ;
+	position: relative;
+}
+
+.addPosition:hover {
+	background-color: yellow;
+}
+.addPosition:active {
+	background-color: red;
+}
+.addPosition:hover {
+	background-color: yellow;
+}
+.addPosition:active {
+	background-color: red;
+}
+
+</style>
+

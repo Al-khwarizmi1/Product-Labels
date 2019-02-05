@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+
+<default>
+	     <reference name="head">
+	      <action method="addCss"><stylesheet>css/apptha/table_style.css</stylesheet></action>
+	      <action method="addCss"><stylesheet>css/apptha/text_style.css</stylesheet></action>
+	     </reference>
+    </default>
+    <productlabels_adminhtml_productlabels_index>
+        <reference name="content">
+            <block type="productlabels/adminhtml_productlabels" name="productlabels" />
+        </reference>
+    </productlabels_adminhtml_productlabels_index>
+</layout>

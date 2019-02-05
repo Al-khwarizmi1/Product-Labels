@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <Apptha_Productlabels>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Apptha_Productlabels>
+    </modules>
+</config> 

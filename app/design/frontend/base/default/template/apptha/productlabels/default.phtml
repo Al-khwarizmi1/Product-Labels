@@ -1,0 +1,229 @@
+<?php
+/**
+ * Apptha
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the EULA
+* that is bundled with this package in the file LICENSE.txt.
+* It is also available through the world-wide-web at this URL:
+* http://www.apptha.com/LICENSE.txt
+*
+* ==============================================================
+*                 MAGENTO EDITION USAGE NOTICE
+* ==============================================================
+* This package designed for Magento COMMUNITY edition
+* Apptha does not guarantee correct work of this extension
+* on any other Magento edition except Magento COMMUNITY edition.
+* Apptha does not provide extension support in case of
+* incorrect edition usage.
+* ==============================================================
+*
+* @category    Apptha
+* @package     Apptha_ProductLabels
+* @version     1.0.0
+* @author      Apptha Team <developers@contus.in>
+* @copyright   Copyright (c) 2014 Apptha. (http://www.apptha.com)
+* @license     http://www.apptha.com/LICENSE.txt
+*"D:/xampp/htdocs/magento/magento/app/design/frontend/rwd/default/template/catalog/product/view/type/availability/default.phtml"
+*/ 
+
+?>
+ <?php 
+$_product = $this->getProduct(); ?>
+<?php if ($this->displayProductStockStatus()): ?>
+    <?php if ($_product->isAvailable()): ?>
+        <p class="availability in-stock">
+            <span class="label"><?php echo $this->helper('catalog')->__('Availability:') ?></span>
+            <span class="value"><?php echo $this->helper('catalog')->__('In stock') ?></span>
+          </p>
+        <?php 
+        $productLabelObj = $this->getLayout()->createBlock('productlabels/productlabels');
+        $today = date('Y-m-d');
+        //strtotime($value) < strtotime($today)
+        
+        //Creating Objects for label and rule collection.
+        $label= Mage::getModel ( 'productlabels/productlabels' )->getCollection();
+        $rules= Mage::getResourceModel( 'productlabels/rules' );//->getCollection();
+        $label_collection=$label->getData();
+        $_labelCollection=$productLabelObj->getFormdata();
+         
+        $category = Mage::getResourceModel('catalog/category_collection')->addFieldToFilter('name', 'Cloth');
+        $cat_det=$category->getData();
+        $ruleCollection=Mage::getResourceModel('productlabels/rules_collection');//->addFieldToFilter('label_id', array('eq' =>406));//$label_collection[$i]['label_id'] )//);
+        $labels=$_labelCollection->getData();
+        
+        
+        for($j=0; $j<count($labels); $j++)
+						{			    					    												
+							$flag=1;
+							
+							$label=$labels[$j]['label_id'];
+							$position= $labels[$j]['labelposition'];							
+							$collection=$ruleCollection->addFieldToFilter('label_id',$label);//$_label->getData('label_id')); /*$_label->getData('label_id')*/
+							
+							for($i=0; $i<count($collection); $i++)
+							{
+							 
+							$attribute=$collection->getData()[$i]['attribute'];
+							$label_id=$collection->getData()[$i]['label_id'];
+							$condition=$collection->getData()[$i]['condition'];
+							$value=$collection->getData()[$i]['value'];
+																												
+							$flag=$flag*1;
+ 							if((strtotime($today) >= strtotime($labels[$j]['fromdate'])) && (strtotime($today) <= strtotime($labels[$j]['todate'])))
+							{
+								
+																																		
+							switch($condition)
+ 							{
+ 								case "lt":
+								if($flag==1)
+								{
+ 									if($_product->getData($attribute)<$value)
+									$flag=1;
+								else 
+									$flag=0;
+								if($flag==1 && $i==count($collection)-1 && $labels[$j]['rulestatus']==1)
+								{																																										
+								{?>
+										<img alt="" src="<?php echo Mage::getBaseUrl('media').$labels[$j]['filename'].' '; ?>" />										
+										
+										<?php }                             
+							}	
+								}
+							break;
+							//check not equal to 
+							case "nteq":
+								if($flag==1)
+								{
+									if($_product->getData($attribute)!=$value)
+										$flag=1;
+									else
+										$flag=0;
+									if($flag==1 && $i==count($collection)-1 && $labels[$j]['rulestatus']==1)
+								{?>
+										<img alt="" src="<?php echo Mage::getBaseUrl('media').$labels[$j]['filename'].' '; ?>" />										
+										
+										<?php }	
+															}
+														break;	
+							//end not equal to 
+							
+							//check wether less than or equal to 
+							case "lteq":
+								if($flag==1)
+								{
+									if($_product->getData($attribute)<=$value)
+										$flag=1;
+									else
+										$flag=0;
+									if($flag==1 && $i==count($collection)-1 && $labels[$j]['rulestatus']==1)
+									{
+									{?>
+										<img alt="" src="<?php echo Mage::getBaseUrl('media').$labels[$j]['filename'].' '; ?>" />										
+										
+										<?php }                                  
+														}	
+															}
+														break;	
+							
+							//Check wether greater or than or equal to
+							
+							case "gteq":
+								if($flag==1)
+								{
+									if($_product->getData($attribute)>=$value)
+										$flag=1;
+									else
+										$flag=0;
+									if($flag==1 && $i==count($collection)-1 && $labels[$j]['rulestatus']==1)
+									{
+									{?>
+										<img alt="" src="<?php echo Mage::getBaseUrl('media').$labels[$j]['filename'].' '; ?>" />										
+										
+										<?php }                                     
+														}	
+															}
+														break;	
+							
+							//end greater or than or equal to
+							case "gt":
+								if($flag==1)
+								{
+								if($_product->getData($attribute)>$value)
+									$flag=1;
+								else
+									$flag=0;
+								if($flag==1  && $i==count($collection)-1 && $labels[$j]['rulestatus']==1)//count($collection)-1)
+								{?>
+										<img alt="" src="<?php echo Mage::getBaseUrl('media').$labels[$j]['filename'].' '; ?>" />										
+										
+										<?php }
+								}	
+									break;								
+							case "eq":
+								if($flag==1)
+								{ 																	
+									if($attribute=="Availability")
+									{
+										
+										if(!$_product->isAvailable())
+										{?>
+										<img alt="" src="<?php echo Mage::getBaseUrl('media').$labels[$j]['filename'].' '; ?>" />										
+										
+										<?php }
+									}		
+									if($attribute=="category")
+									{
+										$categoryIds = $_product->getCategoryIds();
+										if(count($categoryIds))
+									    {
+											$firstCategoryId = $categoryIds[0];
+											$_category = Mage::getModel('catalog/category')->load($firstCategoryId);
+											if($_category->getData('name')==$value)																						
+												$flag=1;											 
+											else
+												$flag=0;												
+										}	
+										//$_category->clearInstance();	
+									}
+																	
+									else
+									{									
+										if($_product->getData($attribute)==$value)
+										{
+										$flag=1;
+										}
+										else
+											$flag=0;//
+									}
+								if($flag==1  && $i==count($collection)-1 && $labels[$j]['rulestatus']==1)//count($collection)-1)
+								{										
+									
+									?>
+									<img alt="" src="<?php echo Mage::getBaseUrl('media').$labels[$j]['filename'].' '; ?>" />				
+									<?php break;																	
+									          
+								}	
+								}break;
+ 							}
+							
+							}
+							
+							}
+							$collection->clear()
+							->getSelect()->reset('where');
+							
+							
+								}?>			         
+      
+       					         
+    <?php else: ?>
+        <p class="availability out-of-stock">
+            <span class="label"><?php echo $this->helper('catalog')->__('Availability:') ?></span>
+            <span class="value"><?php echo $this->helper('catalog')->__('Out of stock') ?></span>                        
+        </p>
+                 
+    <?php endif; ?>
+<?php endif; ?>

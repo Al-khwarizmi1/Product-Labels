@@ -1,0 +1,12 @@
+@CHARSET "ISO-8859-1";
+.product_sales_tag{position:relative;float:left;}
+.product_sales_tag .prodcuctlabels{position:absolute;}
+.product_sales_tag .Top-Left{top:0%;left:0%}
+.product_sales_tag .Top-Middle{top:0%;left:32%}
+.product_sales_tag .Top-Right{top:0%;right:0%}
+.product_sales_tag .Middle-Left{top:32%;left:0%}
+.product_sales_tag .Middle-Middle{top:32%;left:32%}
+.product_sales_tag .Middle-Right{top:32%;right:0%}
+.product_sales_tag .Bottom-Left{bottom:0%;left:0%}
+.product_sales_tag .Bottom-Middle{bottom:0%;left:32%}
+.product_sales_tag .Bottom-Right{bottom:0%;right:0%}

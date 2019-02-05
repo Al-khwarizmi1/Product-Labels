@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * Apptha
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.apptha.com/LICENSE.txt
+ *
+ * ==============================================================
+ *                 MAGENTO EDITION USAGE NOTICE
+ * ==============================================================
+ * This package designed for Magento COMMUNITY edition
+ * Apptha does not guarantee correct work of this extension
+ * on any other Magento edition except Magento COMMUNITY edition.
+ * Apptha does not provide extension support in case of
+ * incorrect edition usage.
+ * ==============================================================
+ *
+ * @category    Apptha
+ * @package     Apptha_ProductLabels
+ * @version     1.0.0
+ * @author      Apptha Team <developers@contus.in>
+ * @copyright   Copyright (c) 2014 Apptha. (http://www.apptha.com)
+ * @license     http://www.apptha.com/LICENSE.txt
+ *
+ */
+ -->
+<config>
+    <modules>
+        <Apptha_Productlabels>
+            <version>1.0.0</version>
+        </Apptha_Productlabels>
+    </modules>
+    <frontend>
+        <routers>
+            <productlabels>
+                <use>standard</use>
+                <args>
+                    <module>Apptha_Productlabels</module>
+                    <frontName>productlabels</frontName>
+                </args>
+            </productlabels>
+        </routers>
+        <layout>
+            <updates>                
+                <productlabels>
+                    <file>productlabels.xml</file>
+                </productlabels>                
+            </updates>
+        </layout>
+  		<events>
+            <controller_action_layout_load_before>
+                <observers>
+                    <inchoo_controller_action_layout_load_before>
+                        <class>productlabels/observer</class>
+                        <method>controllerActionLayoutLoadBefore</method>
+                    </inchoo_controller_action_layout_load_before>
+                </observers>
+            </controller_action_layout_load_before>
+        </events>                     
+    </frontend>
+    <admin>
+        <routers>
+			<productlabels>
+				<use>admin</use>
+				<args>
+					<module>Apptha_Productlabels</module>
+					<frontName>productlabels</frontName>
+				</args>
+			</productlabels>
+        </routers>
+    </admin>
+    <adminhtml>
+   
+		<menu>	
+		
+			<productlabels module="productlabels">
+				 <depends>
+      				<config>productlabels/catalog/enabled</config>
+				</depends>
+				<title>Product Labels</title>
+				<sort_order>71</sort_order>               
+				<children>
+					<subitems module="productlabels">
+						<title>Label settings</title>
+						<sort_order>0</sort_order>
+						<action>productlabels/adminhtml_productlabels</action>
+					</subitems>
+				</children>
+			</productlabels>
+		</menu>
+		<acl>
+		
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<Apptha_Productlabels>
+							<title>productlabels Module</title>
+							<sort_order>10</sort_order>
+						</Apptha_Productlabels>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+		<layout>
+			<updates>
+				<productlabels>
+					<file>productlabels.xml</file>					
+				</productlabels>
+			</updates>
+		</layout>
+    </adminhtml>   
+    <global>
+        <models>
+            <productlabels>
+                <class>Apptha_Productlabels_Model</class>
+                <resourceModel>productlabels_resource</resourceModel>
+            </productlabels>            
+            <productlabels_resource>
+                <class>Apptha_Productlabels_Model_Resource</class>
+                <entities>
+                    <productlabels>
+                        <table>apptha_product_labels</table>
+                    </productlabels>
+                    <rules>
+                        <table>apptha_product_rules</table>
+                    </rules> 
+                    
+                     <conditions>
+                        <table>apptha_product_labelapplied</table>
+                    </conditions> 
+                </entities>
+            </productlabels_resource>
+        </models>
+        <resources>
+            <product_label_setup>
+                <setup>
+                    <module>Apptha_Productlabels</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </product_label_setup>
+            <productlabels_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </productlabels_write>
+            <productlabels_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </productlabels_read>
+        </resources>
+        <blocks>
+            <productlabels>
+                <class>Apptha_Productlabels_Block</class>
+            </productlabels>
+        </blocks>
+        <helpers>
+            <productlabels>
+                <class>Apptha_Productlabels_Helper</class>
+            </productlabels>
+        </helpers>
+       <events> 
+	        <catalog_product_save_after>
+	            <observers>
+	                <productlabels_save>
+	                    <class>productlabels/observer</class>
+	                    <method>catalogProductSaveAfter</method>
+	                </productlabels_save>
+	            </observers>
+	        </catalog_product_save_after>    
+	    </events>
+    </global>
+</config>

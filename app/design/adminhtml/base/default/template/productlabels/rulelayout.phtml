@@ -1,0 +1,194 @@
+<?php 
+/**
+ * Apptha
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the EULA
+* that is bundled with this package in the file LICENSE.txt.
+* It is also available through the world-wide-web at this URL:
+* http://www.apptha.com/LICENSE.txt
+*
+* ==============================================================
+*                 MAGENTO EDITION USAGE NOTICE
+* ==============================================================
+* This package designed for Magento COMMUNITY edition
+* Apptha does not guarantee correct work of this extension
+* on any other Magento edition except Magento COMMUNITY edition.
+* Apptha does not provide extension support in case of
+* incorrect edition usage.
+* ==============================================================
+*
+* @category    Apptha
+* @package     Apptha_ProductLabels
+* @version     1.0.0
+* @author      Apptha Team <developers@contus.in>
+* @copyright   Copyright (c) 2014 Apptha. (http://www.apptha.com)
+* @license     http://www.apptha.com/LICENSE.txt
+*
+*/ ?>
+<?php 
+$_htmlId      = $this->getElement()->getHtmlId();
+$_htmlClass   = $this->getElement()->getClass();
+$_htmlName    = $this->getElement()->getName();
+$_readonly    = $this->getElement()->getReadonly();
+$_value 	  = $this->getElement()->getValue();
+
+$collection = $this->getRulesCollection();
+
+$_counter = 0;             
+
+?>
+<tr>
+    <td class="label"><?php echo $this->getElement()->getLabel() ?></td>
+    <td colspan="10" class="grid hours">
+        <table id="attribute-options-table" class="dynamic-grid rkstorelocator-officehours" cellspacing="0" cellpadding="0" >
+        	<thead>
+	            <tr>
+	                <th><?php echo $this->__(' Choose Attribute  ') ?></th>
+	                <th>&nbsp;&nbsp;<?php echo $this->__(' Condition   ') ?>
+	                </th><th>&nbsp;&nbsp;<?php echo $this->__('Value ') ?>&nbsp;&nbsp;&nbsp;</th>
+	                <th><button id="add_new_option_button" title="Add Option" type="button"><?php echo $this->__('Add Option') ?></button></th>
+	            </tr>
+	          </thead> 
+	          <tbody>  
+	            <?php foreach ($collection as $_item): ?>
+					<tr class="option-row rkstorelocator-officehours-dayrow" id="hour-row-<?php echo $_counter?>">
+					    <td>
+					    	<?php echo $_item->getAttributeLabel() ?>
+					    	<input name="<?php echo $_htmlName; ?>[value][option_<?php echo $_counter ?>][dayindicator]" type="hidden" value="<?php echo $_item->getAttribute() ?>" class="required-entry" >
+					    </td>
+					    <td>
+					    	<?php echo $_item->getConditions($_item->getCondition()) ?>
+					    	<input name="<?php echo $_htmlName; ?>[value][option_<?php echo $_counter ?>][openinghour]" type="hidden" value="<?php echo $_item->getCondition() ?>" class="input-text" type="text">
+					    </td>
+					    <td>
+					    	<?php 					    			    	
+					    	echo $_item->getValues($_item->getValue());					    		
+					    		?>
+					    	<input name="<?php echo $_htmlName; ?>[value][option_<?php echo $_counter ?>][closinghour]" type="hidden" value="<?php echo $_item->getValue() ?>" class="input-text" type="text">
+					    </td>
+					    
+					    <td class="a-left" id="delete_button_container_option_<?php echo $_counter ?>'">
+					        <input name="<?php echo $_htmlName; ?>[value][option_<?php echo $_counter ?>][id]" value="<?php echo $_item->getId() ?>" type="hidden">
+					        <input id="delete-row-<?php echo $_counter ?>" type="hidden" class="delete-flag" name="<?php echo $_htmlName; ?>[delete][option_<?php echo $_counter ?>]" value=""/>
+					        <button onclick="$('hour-row-<?php echo $_counter ?>').style.display='none'; $('delete-row-<?php echo $_counter ?>').setValue(<?php echo $_item->getId() ?>);" title="Delete" type="button" class="scalable delete delete-option"><span><span><span>Delete</span></span></span></button>
+					    </td>
+					</tr>
+					<?php $_counter++; ?>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+
+<?php 
+	$attributes = $this->getAttributeCollection();
+	$productCollection = $this->getProductColleciton();
+	$_categoryCollection = $this->getCategory();
+	$_categoryName=$_categoryCollection['name'];
+	$_categoryId=$_categoryCollection['id'];
+	$_productName = $productCollection['name'];
+	$_getSku = $productCollection['sku'];
+	$_productId = $productCollection['id'];
+?>
+				
+
+<script type="text/javascript">
+ 
+//<![CDATA[
+var ref_url = '<?php echo Mage::helper("adminhtml")->getUrl("productlabels/adminhtml_attributes/index") ?>';
+var _form_html_row = '<tr class="option-row-rkstorelocator-officehours-dayrow" id="hour-row-{{id}}">'
+						+' <td>'
+						+' <select onchange="updateSelect(this);" data-update="{{id}}" id="selectMe-{{id}}" class="input-text required-entry" name="<?php echo $_htmlName; ?>[value][option_{{id}}][dayindicator]">'
+						<?php foreach ($attributes as $code => $label ) {?>
+							+' <option value="<?php  echo $code; ?>"><?php  echo $label; ?></option>'
+						<?php }?>
+						+' </select>'
+						+' </td><td>'
+						+' <select name="<?php echo $_htmlName; ?>[value][option_{{id}}][openinghour]" id="mySelect-{{id}}">'
+							+' <option value="eq">is</option>'
+							+' <option value="neq">is not</option>'														
+						+' </select></td><td>'
+						+' <input name="<?php echo $_htmlName; ?>[value][option_{{id}}][closinghour]" value="" id="categorys-{{id}}" class="input-text" type="text">'
+						+' </td><td class="a-left" id="">'					
+						+' <button onclick="$(\'hour-row-{{id}}\').up().remove();" title="Delete" type="button" class="scalable delete delete-option"><span><span><span>Delete</span></span></span></button>'
+						+' </td></tr>';
+
+  
+						
+var _apptha_productlabel_counter = <?php echo $_counter; ?>;
+
+$('add_new_option_button').observe('click', function(){
+
+    $('attribute-options-table').insert(_form_html_row.replace(/\{\{id\}\}/ig, _apptha_productlabel_counter));
+
+    _apptha_productlabel_counter++;
+});	
+
+
+function updateSelect(select){
+	var $this = $(select),
+		attr_id = $this.readAttribute('data-update'),
+		options = $$('#selectMe-'+ attr_id),
+		_selectEQNTEQ='<select name="<?php echo $_htmlName; ?>[value][option_{{id}}][openinghour]" id="mySelect-{{id}}">'
+			+' <option value="eq">is</option>'
+			+' <option value="neq">is not</option>'
+			+' </select>';
+		switch($this.value) {
+			case "category_id":
+			   var _selectCategory ='<select name="<?php echo $_htmlName; ?>[value][option_{{id}}][closinghour]" id="categorys-{{id}}">'
+									<?php for($j=1; $j<count($_categoryId); $j++) {?>
+										+' <option value="<?php  echo $_categoryId[$j]; ?>" ><?php  echo str_replace("'","",$_categoryName[$j]); ?></option>'
+									<?php }?>
+									+' </select>';
+			   $('categorys-'+attr_id).replace(_selectCategory.replace(/\{\{id\}\}/ig,attr_id));
+			   $('mySelect-'+attr_id).replace(_selectEQNTEQ.replace(/\{\{id\}\}/ig,attr_id));
+				break;
+				
+			case "entity_id":
+	             var _selectProductName ='<select name="<?php echo $_htmlName; ?>[value][option_{{id}}][closinghour]" id="categorys-{{id}}">'
+	                 					<?php for($j=0; $j<count($_productName); $j++) {?>
+	                 						+" <option value=\"<?php  echo $_productId[$j]; ?>\"><?php  echo str_replace("'","",$_productName[$j]); ?></option>"
+	                 					<?php }?>
+	                 					+' </select>';
+	
+	       	    $('categorys-'+attr_id).replace(_selectProductName.replace(/\{\{id\}\}/ig,attr_id));
+	       	  	$('mySelect-'+attr_id).replace(_selectEQNTEQ.replace(/\{\{id\}\}/ig,attr_id));
+				break;
+				
+			case "sku":
+          		var _selectName ='<select name="<?php echo $_htmlName; ?>[value][option_{{id}}][closinghour]" id="categorys-{{id}}">'
+          							<?php for($j=0; $j<count($_getSku); $j++) { ?>
+          							+' <option value="<?php  echo  $_productId[$j]; ?>"><?php  echo str_replace("'","",$_getSku[$j]); ?></option>'
+          							<?php }?>
+          						+' </select>';
+          		$('categorys-'+attr_id).replace(_selectName.replace(/\{\{id\}\}/ig,attr_id));
+          		$('mySelect-'+attr_id).replace(_selectEQNTEQ.replace(/\{\{id\}\}/ig,attr_id));
+				break;
+			
+          	default:
+          		var new_ref_url = ref_url+'code/'+$this.value;     		
+          		new Ajax.Request(new_ref_url, {
+          		    method: 'get',
+          		    onSuccess: function(response){
+          			 var data = response.responseText.evalJSON(true);
+					 var _selectBoxes = data.selectBox;
+					 var _textBoxes = data.inputText;					                 		
+        			 var _selectreplace = _selectBoxes.replace(/\{\{htmlName\}\}/ig,'<?php echo $_htmlName; ?>');        	       
+         			 var _textreplace = _textBoxes.replace(/\{\{htmlName\}\}/ig,'<?php echo $_htmlName; ?>');         			
+          			 $('categorys-'+attr_id).replace(_textreplace.replace(/\{\{id\}\}/ig,attr_id)); 
+  				     $('mySelect-'+attr_id).replace(_selectreplace.replace(/\{\{id\}\}/ig,attr_id));
+        			 
+                     },
+          		    onFailure:function(){
+      			      	var _textBox ='<input type="text" id="categorys-{{id}}" value="" name="<?php echo $_htmlName; ?>[value][option_{{id}}][closinghour]" />';
+    					$('categorys-'+attr_id).replace(_textBox.replace(/\{\{id\}\}/ig,attr_id));   
+    					$('mySelect-'+attr_id).replace(_selectEQNTEQ.replace(/\{\{id\}\}/ig,attr_id));   											
+                  }
+                });                  
+          	break;
+			}    			 				
+		}    
+
+//]]></script>
+    </td>
+</tr>

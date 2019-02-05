@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Apptha
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.apptha.com/LICENSE.txt
+ *
+ * ==============================================================
+ *                 MAGENTO EDITION USAGE NOTICE
+ * ==============================================================
+ * This package designed for Magento COMMUNITY edition
+ * Apptha does not guarantee correct work of this extension
+ * on any other Magento edition except Magento COMMUNITY edition.
+ * Apptha does not provide extension support in case of
+ * incorrect edition usage.
+ * ==============================================================
+ *
+ * @category    Apptha
+ * @package     Apptha_ProductLabels
+ * @version     1.0.0
+ * @author      Apptha Team <developers@contus.in>
+ * @copyright   Copyright (c) 2014 Apptha. (http://www.apptha.com)
+ * @license     http://www.apptha.com/LICENSE.txt
+ *
+ */ -->
+<layout version="0.1.0">
+    <default>
+	     <reference name="head">
+	      <action method="addCss"><stylesheet>css/apptha/productlabels/productlabels_style.css</stylesheet></action>
+	     </reference>
+    </default>
+    
+	<frontend_default_default_catalog_category_view>
+		
+		<reference name="product_list">		
+                <action method="setTemplate" ifconfig="productlabels/catalog/enabled"><template>apptha/productlabels/list.phtml</template></action>
+		</reference>
+	</frontend_default_default_catalog_category_view>
+	
+	<frontend_rwd_default_catalog_category_view>
+		<reference name="product_list">
+                <action method="setTemplate" ifconfig="productlabels/catalog/enabled"><template>apptha/productlabels/rwd/list.phtml</template></action>
+		</reference>
+	</frontend_rwd_default_catalog_category_view>
+	
+	<frontend_default_default_catalogsearch_result_index translate="label">
+		<reference name="search_result_list">
+                 <action method="setTemplate" ifconfig="productlabels/catalog/enabled"><template>apptha/productlabels/list.phtml</template></action>
+		</reference>
+	</frontend_default_default_catalogsearch_result_index>	
+	
+	<frontend_rwd_default_catalogsearch_result_index translate="label">
+		<reference name="search_result_list">
+                 <action method="setTemplate" ifconfig="productlabels/catalog/enabled"><template>apptha/productlabels/rwd/list.phtml</template></action>
+		</reference>
+	</frontend_rwd_default_catalogsearch_result_index>	
+	
+	
+	
+</layout> 

@@ -1,0 +1,4 @@
+#rkstorelocator_form .grid table td{padding: 3px 7px;}
+#rkstorelocator_form .dynamic-grid th {border-bottom: 1px solid #ccc; padding: 6px 7px;}
+#rkstorelocator_form tbody .grid table td.a-left, #rkstorelocator_form tbody .grid thead th.a-left{border-right:none;}
+#rkstorelocator_form thead th{border-right:1px solid #ccc;}
